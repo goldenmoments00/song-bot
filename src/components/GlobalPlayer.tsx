@@ -31,7 +31,7 @@ export default function GlobalPlayer() {
 
   return (
     <>
-      <div className={styles.hiddenPlayer} style={{ position: 'absolute', opacity: 0.01, pointerEvents: 'none', zIndex: -10 }}>
+      <div style={{ position: 'absolute', opacity: 0.01, pointerEvents: 'none', zIndex: -10 }}>
         <ReactPlayer
           ref={playerRef}
           url={currentSong ? `https://www.youtube.com/watch?v=${currentSong.id}` : "https://www.youtube.com/watch?v=dQw4w9WgXcQ"}

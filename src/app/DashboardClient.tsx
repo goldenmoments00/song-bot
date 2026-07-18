@@ -120,6 +120,11 @@ export default function DashboardClient() {
             </span>
           </h1>
           <p>Please select the soundtrack for your wedding films below.</p>
+          <div className={styles.saveActionContainer}>
+            <button onClick={handleSave} className={styles.mainSaveBtn} disabled={isSaving}>
+              {isSaving ? "Saving..." : saveStatus === "saved" ? "Saved Successfully" : "Save Changes"}
+            </button>
+          </div>
         </motion.div>
 
         <div className={styles.tabsContainer}>
@@ -149,12 +154,6 @@ export default function DashboardClient() {
           />
         </div>
       </main>
-
-      <div className={styles.saveActionContainer}>
-         <button onClick={handleSave} className={styles.mainSaveBtn} disabled={isSaving}>
-            {isSaving ? "Saving..." : saveStatus === "saved" ? "Saved Successfully" : "Save Changes"}
-         </button>
-      </div>
 
       <GlobalPlayer />
     </div>

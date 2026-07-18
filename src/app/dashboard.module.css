@@ -95,11 +95,15 @@
 }
 
 .mainLogo {
-  width: 150px;
+  width: 180px;
   height: auto;
   object-fit: contain;
   margin: 0 auto 1.5rem auto;
   display: block;
+  background-color: var(--color-text-main);
+  padding: 12px 24px;
+  border-radius: 50px;
+  box-shadow: var(--shadow-soft);
 }
 
 .intro h1, .welcomeHeading {

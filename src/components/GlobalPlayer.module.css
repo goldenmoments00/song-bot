@@ -1,0 +1,137 @@
+.playerWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 2rem;
+  z-index: 50;
+  pointer-events: none; /* Let clicks pass through the wrapper */
+}
+
+.playerContainer {
+  pointer-events: auto; /* Re-enable clicks for the actual player */
+  background: rgba(45, 10, 15, 0.7); /* Deep burgundy glassmorphism */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.hiddenPlayer {
+  display: none;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.iconBtn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.iconBtn:hover {
+  color: white;
+}
+
+.playBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: white;
+  color: var(--color-accent);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.playBtn:hover {
+  transform: scale(1.05);
+}
+
+.playIcon {
+  margin-left: 3px;
+}
+
+.songInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  background: rgba(0,0,0,0.2);
+  padding: 0.5rem;
+  padding-right: 1.5rem;
+  border-radius: 50px;
+}
+
+.thumbnail {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.textInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.channel {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .playerWrapper {
+    padding: 1rem;
+  }
+  .playerContainer {
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+  }
+  .songInfo {
+    display: none; /* Hide song info on very small screens to save space */
+  }
+}

@@ -1,0 +1,212 @@
+.container {
+  padding-bottom: 100px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--color-accent);
+  letter-spacing: 0.5px;
+}
+
+.userControls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.userEmail {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-warm-cream);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.userAvatarFallback {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  transition: var(--transition-smooth);
+}
+
+.logoutBtn:hover {
+  background: var(--color-blush-pink);
+  border-color: transparent;
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.intro h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+.intro p {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+}
+
+.tabsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 0 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tabsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.tabBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  font-weight: 500;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tabBtn:hover {
+  background: var(--color-blush-pink);
+  color: var(--color-text-main);
+}
+
+.activeTab {
+  background: var(--color-accent) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(138, 21, 27, 0.3);
+}
+
+.tabBadge {
+  background: white;
+  color: var(--color-accent);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.activeTab .tabBadge {
+  background: white;
+  color: var(--color-accent);
+}
+
+.categoryContent {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.saveActionContainer {
+  position: relative;
+  background: transparent;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.mainSaveBtn {
+  background: var(--color-accent);
+  color: white;
+  padding: 1rem 3rem;
+  border-radius: var(--radius-lg);
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 14px rgba(212, 163, 115, 0.4);
+}
+@media (max-width: 768px) {
+  .tabsContainer {
+    gap: 0.35rem;
+  }
+  
+  .tabBtn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+    gap: 0.25rem;
+  }
+
+  .tabBadge {
+    width: 16px;
+    height: 16px;
+    font-size: 0.65rem;
+  }
+}
+.mainSaveBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 163, 115, 0.5);
+}
+
+.mainSaveBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

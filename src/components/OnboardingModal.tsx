@@ -50,6 +50,12 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
     setStep(2);
   };
 
+  const handleProjectIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/\D/g, '');
+    const truncated = rawValue.slice(0, 4);
+    setProjectId(truncated ? '#' + truncated : '');
+  };
+
   const handleFinish = () => {
     if (!brideName.trim() || !groomName.trim()) {
       setError("Please enter both Bride and Groom names.");
@@ -63,9 +69,9 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
     <div className={styles.overlay}>
       <motion.div 
         className={styles.modal}
-        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
       >
         <div className={styles.header}>
           <h2 className={styles.title}>Golden Moment</h2>
@@ -87,10 +93,12 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
               <div className={styles.formGroup}>
                 <label className={styles.label}>Order ID (Client ID)</label>
                 <input
-                  type="text"
+                  type="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   value={projectId}
-                  onChange={(e) => setProjectId(e.target.value)}
-                  placeholder="e.g. #1020"
+                  onChange={handleProjectIdChange}
+                  placeholder="#1020"
                   className={styles.input}
                   onKeyDown={(e) => e.key === "Enter" && handleNext()}
                   autoFocus

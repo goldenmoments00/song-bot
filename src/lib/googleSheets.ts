@@ -1,7 +1,10 @@
 import { google } from "googleapis";
 
 export const getGoogleSheetsClient = async () => {
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  let privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  if (privateKey && privateKey.startsWith('"') && privateKey.endsWith('"')) {
+    privateKey = privateKey.slice(1, -1);
+  }
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
 
   if (!privateKey || !clientEmail) {

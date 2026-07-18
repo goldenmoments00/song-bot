@@ -5,6 +5,7 @@ import { Search, X, Loader2, Play } from "lucide-react";
 import { Song } from "@/app/DashboardClient";
 import styles from "./SongSearchModal.module.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePlayerStore } from "@/store/playerStore";
 
 interface SongSearchModalProps {
   onClose: () => void;
@@ -19,11 +20,11 @@ export default function SongSearchModal({
   categoryTitle,
   initialSearchQuery,
 }: SongSearchModalProps) {
+  const { playSong } = usePlayerStore();
   const [query, setQuery] = useState(initialSearchQuery || `${categoryTitle} wedding songs`);
   const [results, setResults] = useState<Song[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState("");
-  const [playingSongId, setPlayingSongId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const performSearch = async (searchQuery: string) => {
@@ -108,38 +109,24 @@ export default function SongSearchModal({
           {results.map((song) => (
             <div key={song.id} className={styles.resultItem}>
               <div className={styles.thumbnailContainer}>
-                {playingSongId === song.id ? (
-                  <iframe
-                    width="120"
-                    height="68"
-                    src={`https://www.youtube.com/embed/${song.id}?autoplay=1`}
-                    title={song.title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    className={styles.thumbnail}
-                  ></iframe>
-                ) : (
-                  <div className={styles.thumbnailBtn}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={song.thumbnail} alt={song.title} className={styles.thumbnail} />
-                  </div>
-                )}
+                <div className={styles.thumbnailBtn}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={song.thumbnail} alt={song.title} className={styles.thumbnail} />
+                </div>
               </div>
               <a href={song.url} target="_blank" rel="noopener noreferrer" className={styles.details} title="Listen on YouTube">
                 <div className={styles.title}>{song.title}</div>
                 <div className={styles.channel}>{song.channel}</div>
               </a>
               <div className={styles.actionButtons}>
-                {playingSongId !== song.id && (
-                  <button
-                    type="button"
-                    className={styles.playActionBtn}
-                    onClick={() => setPlayingSongId(song.id)}
-                    title="Play Preview"
-                  >
-                    <Play size={16} className={styles.playIcon} /> Play
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className={styles.playActionBtn}
+                  onClick={() => playSong(song)}
+                  title="Play Preview"
+                >
+                  <Play size={16} className={styles.playIcon} /> Play
+                </button>
                 <button
                   type="button"
                   className={styles.selectBtn}

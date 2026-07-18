@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { motion } from "framer-motion";
-import ClientInfo from "@/components/ClientInfo";
+import { motion, AnimatePresence } from "framer-motion";
+import OnboardingModal from "@/components/OnboardingModal";
 import CategorySection from "@/components/CategorySection";
 import GlobalPlayer from "@/components/GlobalPlayer";
 import styles from "./dashboard.module.css";
@@ -41,26 +41,9 @@ export default function DashboardClient() {
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [activeCategory, setActiveCategory] = useState<string>(CATEGORIES[0]);
 
-  // Load initial data when projectId changes
-  useEffect(() => {
-    if (!projectId || projectId.length < 3) return;
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
-    const timeoutId = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/songs?projectId=${encodeURIComponent(projectId)}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.brideName) setBrideName(data.brideName);
-          if (data.groomName) setGroomName(data.groomName);
-          if (data.selections) setSelections(data.selections);
-        }
-      } catch (err) {
-        console.error("Failed to load data for project", err);
-      }
-    }, 1000); // 1s debounce for loading after typing project id
-
-    return () => clearTimeout(timeoutId);
-  }, [projectId]);
+  // We no longer auto-fetch here because the OnboardingModal handles the initial fetch.
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -106,8 +89,23 @@ export default function DashboardClient() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, brideName, groomName, selections]);
 
+  const handleOnboardingComplete = (id: string, bride: string, groom: string, loadedSelections: Selections) => {
+    setProjectId(id);
+    setBrideName(bride);
+    setGroomName(groom);
+    if (Object.keys(loadedSelections).length > 0) {
+      setSelections(loadedSelections);
+    }
+    setIsModalOpen(false);
+  };
+
   return (
     <div className={styles.container}>
+      <AnimatePresence>
+        {isModalOpen && (
+          <OnboardingModal onComplete={handleOnboardingComplete} />
+        )}
+      </AnimatePresence>
       <header className={styles.header}>
         <div className={styles.logo}>GoldenMoment</div>
         <div className={styles.userControls}>
@@ -139,16 +137,15 @@ export default function DashboardClient() {
           <p>Please select the soundtrack for your wedding films below.</p>
         </motion.div>
 
-        <ClientInfo
-          projectId={projectId}
-          setProjectId={setProjectId}
-          brideName={brideName}
-          setBrideName={setBrideName}
-          groomName={groomName}
-          setGroomName={setGroomName}
-          onSave={handleSave}
-          saveStatus={saveStatus}
-        />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", background: "white", padding: "15px 25px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+           <div>
+             <span style={{ color: "#666", fontSize: "0.9rem" }}>Order ID: </span>
+             <strong style={{ color: "var(--color-bg-accent)", fontSize: "1.1rem" }}>{projectId}</strong>
+           </div>
+           <button onClick={() => setIsModalOpen(true)} style={{ background: "none", border: "1px solid #ccc", padding: "6px 12px", borderRadius: "6px", cursor: "pointer", fontSize: "0.9rem" }}>
+             Change Order
+           </button>
+        </div>
 
         <div className={styles.tabsContainer}>
           {CATEGORIES.map((cat) => (

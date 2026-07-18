@@ -16,8 +16,7 @@ export const getGoogleSheetsClient = async () => {
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
 
-  const authClient = await auth.getClient();
-  const sheets = google.sheets({ version: "v4", auth: authClient as import("googleapis").Auth.GoogleAuth });
+  const sheets = google.sheets({ version: "v4", auth: auth as any });
 
   return sheets;
 };

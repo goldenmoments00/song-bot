@@ -28,6 +28,7 @@ export default function GlobalPlayer() {
           height="1px"
           config={{
             youtube: {
+              // @ts-ignore
               playerVars: {
                 playsinline: 1, // Crucial for iOS mobile
                 autoplay: 1,

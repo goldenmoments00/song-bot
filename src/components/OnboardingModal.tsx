@@ -74,7 +74,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
         exit={{ opacity: 0, scale: 0.95 }}
       >
         <div className={styles.header}>
-          <h2 className={styles.title}>Golden Moment</h2>
+          <img src="/small.png" alt="Golden Moment" className={styles.logo} />
           <p className={styles.subtitle}>
             {step === 1 ? "Enter your Order ID to continue" : "Tell us about the couple"}
           </p>

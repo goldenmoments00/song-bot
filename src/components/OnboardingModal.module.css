@@ -27,10 +27,12 @@
   margin-bottom: 30px;
 }
 
-.title {
-  color: var(--color-bg-accent);
-  font-size: 1.75rem;
-  margin-bottom: 10px;
+.logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin: 0 auto 10px auto;
+  display: block;
 }
 
 .subtitle {

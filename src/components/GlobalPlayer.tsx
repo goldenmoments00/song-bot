@@ -3,7 +3,7 @@
 import { usePlayerStore } from "@/store/playerStore";
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react";
 import styles from "./GlobalPlayer.module.css";
-import ReactPlayer from "react-player/youtube";
+import ReactPlayer from "react-player";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 

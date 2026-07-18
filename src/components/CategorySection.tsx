@@ -150,33 +150,36 @@ export default function CategorySection({
               <div className={styles.mobileSuggestions}>
                 {CATEGORY_SUGGESTIONS[title].map((song) => (
                   <div key={song.id} className={styles.mobileSongRow}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={song.thumbnail} alt={song.title} className={styles.mobileThumb} />
                     <div className={styles.mobileSongInfo}>
                       <h4 dangerouslySetInnerHTML={{ __html: song.title }} />
                       <p>{song.channel}</p>
                     </div>
-                    <button 
-                      className={styles.mobilePlayBtn}
-                      onClick={() => {
-                        if (currentSong?.id === song.id) {
-                          isPlaying ? pause() : resume();
-                        } else {
-                          playSong(song);
-                        }
-                      }}
-                    >
-                      {currentSong?.id === song.id && isPlaying ? (
-                        <Pause size={18} fill="currentColor" />
-                      ) : (
-                        <Play size={18} fill="currentColor" className={styles.playIcon} />
-                      )}
-                    </button>
-                    <button 
-                      className={styles.mobileAddBtn}
-                      onClick={() => handleAdd(song)}
-                    >
-                      <Plus size={20} />
-                    </button>
+                    <div className={styles.mobileActions}>
+                      <button 
+                        className={`${styles.mobilePlayTextBtn} ${currentSong?.id === song.id && isPlaying ? styles.mobilePlayingBtn : ""}`}
+                        onClick={() => {
+                          if (currentSong?.id === song.id) {
+                            isPlaying ? pause() : resume();
+                          } else {
+                            playSong(song);
+                          }
+                        }}
+                      >
+                        {currentSong?.id === song.id && isPlaying ? (
+                          <><Pause size={14} fill="currentColor" /> Pause</>
+                        ) : (
+                          <><Play size={14} fill="currentColor" className={styles.playIcon} /> Play</>
+                        )}
+                      </button>
+                      <button 
+                        className={styles.mobileSelectBtn}
+                        onClick={() => handleAdd(song)}
+                      >
+                        Select
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

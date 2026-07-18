@@ -1,0 +1,11 @@
+const privateKeyRaw = `"-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCWrwEE1csnXUfD\nrrXvs5cz2akr/zbU5CBnKELRmbgndpw1UgV7v+HgMLKFXEwTbrf9/DSQBQ5Y7yZz\n/FaQc7MMb79zu3BDsA+zqtcyRd3QMPOvSNTmc6K3vVhkVUM9YHZ95nkKOYsbJ8qn\nOirx9uoVA6GxgAelD1NW/NZ3JdZgZbfCTgDsFNqM3II0TrHb3Bipf4bdSvFXDucI\ncT4/iufla7/9I9yqAI+n/7crJwnQdIdYWec15f+TKfGVOT+FfDw7VtWJnAWybh+B\nCx8V30405YHo4h0osqtdhwYW5NFwvFhzPRXSpFfqz8IZgUHnAcd/mG+fgsaEcXpo\nLubzjWnBAgMBAAECggEAATsScxmecEwUdW/AbBc/eMn84LS+e/MVjyt5Y+jMI+QL\nKaspoOLr4MGGZxezsN8b2QhFyHfcGplFyyx7ALDLPCKlBw2swJwdaAz7tz0cxHyu\niYaFePuQjzeNvhBiuADT0u/ZGlPm6UIUJ1/D9kg7TaWNvRYJP0hD4181uWZ+wjiL\nQrQCLT0jQbXaXoqJUvY0anEnS0dOHnODxwygEAiESDrA8JnCzRMyIzXjCJD56CKZ\nftozmFCyKJJu2ojzCFm3CjipRiv23ousYZN+Id1iG2rjvzUMTvKKo6x/mqo1ZsWy\niVqhQ7VDH5cHw5ToS1rxq3Zkc+dWiwh99JoNYr2qmQKBgQDHTircnfjBRFRtVXNN\n8PhlcGmuC/th2lHxfQKgfI1TvurlMer/E2eG1/NZ4v8xsVZeXZ4FAfSXjh8m+h+J\n23yYZwS3HEXeiy/XNSasLEvqDnwTgkK8kyegVkCNYoob6NaJ6Hqpx392Va6Y56uv\nDpTwPi51Smscf+N6gq8Ra1NVmQKBgQDBjBmiZ0Q2sDLBr9CibcuB+S/MYD0Ejekv\n3BpAlnS61IbzdAajHyhn7ar3BRPKcDeLTS02dygUBP+Wl5uZqbiDhMGhr3B6ARpU\nX1JTTAHCa2ZsYb0pEfVUxjVC4jxZR13/TF5fXiqZ4HWKix/H2EBaKOToPJpPWj5C\nAjrpxu5+aQKBgClnnNHuY5JLDrsUCHtFt2TjgKDuzk+a2nEvxk7u8TFXtVbeEvLg\n5h4GWQDwfpGlRMsf6ccii9y8Ys5nIgwys+S5aipcTkuYYNz1ps4X+cFrNu2anyCr\n9YyCvrBgq053BbLqwCjrUBiWXkpXvrwEbH6ofGBTkIMAMpLt+U7GHC7pAoGAdxlH\nDPCOwThbg2Q09j6p5Cj6iMEPyyWoQJModGYhHnZ5NIZJL0eVDZ7qfWbabs/u3gF3\nuPRJ7UfGH1zbmwsdR5EBtgTHKcxT72dYuXkj/Acq17atOACc/rWZQLcGe8m2xcqw\np+7COD4vFjnWLJudvd08PsxMCFh3xxaoOgL370ECgYBiUd7HFHPVMg2NughSnayt\ndVniJw7NUR6JN2D0xn6BFpS30IrTQ0wwBOy7nijbd2W8XMDnG2qT4iPlE9XrVNwK\nKlT56gFvhV2NiMhtvvzfucEeXysGMgzkNBcCrS7KXp4c1NM8n7vorjqwl57tNa3v\ncrwSDAgh/xqRIMPbZq6MKQ==\n-----END PRIVATE KEY-----\n"`;
+let privateKey = privateKeyRaw || "";
+privateKey = privateKey.replace(/"/g, '').replace(/'/g, '');
+privateKey = privateKey.replace(/\\n/g, '\n');
+
+if (privateKey.includes('BEGIN PRIVATE KEY')) {
+   const body = privateKey.replace('-----BEGIN PRIVATE KEY-----', '').replace('-----END PRIVATE KEY-----', '').replace(/\s+/g, '');
+   privateKey = `-----BEGIN PRIVATE KEY-----\n${body.match(/.{1,64}/g)?.join('\n')}\n-----END PRIVATE KEY-----\n`;
+}
+console.log("Reconstructed Key:");
+console.log(privateKey);

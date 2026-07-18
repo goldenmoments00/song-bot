@@ -119,7 +119,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
                   type="text"
                   value={brideName}
                   onChange={(e) => setBrideName(e.target.value)}
-                  placeholder="e.g. Sonali"
+                  placeholder="e.g. Rebaka"
                   className={styles.input}
                   autoFocus
                 />
@@ -130,7 +130,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
                   type="text"
                   value={groomName}
                   onChange={(e) => setGroomName(e.target.value)}
-                  placeholder="e.g. Abhi"
+                  placeholder="e.g. Alex"
                   className={styles.input}
                   onKeyDown={(e) => e.key === "Enter" && handleFinish()}
                 />

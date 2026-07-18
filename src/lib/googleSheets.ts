@@ -1,10 +1,16 @@
 import { google } from "googleapis";
 
 export const getGoogleSheetsClient = async () => {
-  let privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-  if (privateKey && privateKey.startsWith('"') && privateKey.endsWith('"')) {
-    privateKey = privateKey.slice(1, -1);
+  let privateKey = process.env.GOOGLE_PRIVATE_KEY || "";
+  privateKey = privateKey.replace(/"/g, '').replace(/'/g, '');
+  privateKey = privateKey.replace(/\\n/g, '\n');
+  
+  // Guarantee the PEM format is strictly constructed
+  if (privateKey.includes('BEGIN PRIVATE KEY')) {
+     const body = privateKey.replace('-----BEGIN PRIVATE KEY-----', '').replace('-----END PRIVATE KEY-----', '').replace(/\s+/g, '');
+     privateKey = `-----BEGIN PRIVATE KEY-----\n${body.match(/.{1,64}/g)?.join('\n')}\n-----END PRIVATE KEY-----\n`;
   }
+
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
 
   if (!privateKey || !clientEmail) {

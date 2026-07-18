@@ -106,26 +106,6 @@ export default function DashboardClient() {
           <OnboardingModal onComplete={handleOnboardingComplete} />
         )}
       </AnimatePresence>
-      <header className={styles.header}>
-        <div className={styles.logo}>GoldenMoment</div>
-        <div className={styles.userControls}>
-          {session?.user ? (
-            <>
-              {session.user.image ? (
-                <img src={session.user.image} alt="User avatar" className={styles.userAvatar} />
-              ) : (
-                <div className={styles.userAvatarFallback}>
-                  {session.user.name?.[0] || session.user.email?.[0] || "U"}
-                </div>
-              )}
-              <span className={styles.userEmail}>{session.user.name || session.user.email}</span>
-              <button onClick={() => signOut()} className={styles.logoutBtn}>Logout</button>
-            </>
-          ) : (
-            <span className={styles.userEmail}>Test Mode (Auth Skipped)</span>
-          )}
-        </div>
-      </header>
 
       <main className={styles.main}>
         <motion.div

@@ -7,6 +7,7 @@ interface PlayerState {
   playSong: (song: Song) => void;
   pause: () => void;
   resume: () => void;
+  stop: () => void;
 }
 
 export const usePlayerStore = create<PlayerState>((set) => ({
@@ -15,4 +16,5 @@ export const usePlayerStore = create<PlayerState>((set) => ({
   playSong: (song) => set({ currentSong: song, isPlaying: true }),
   pause: () => set({ isPlaying: false }),
   resume: () => set((state) => ({ isPlaying: state.currentSong ? true : false })),
+  stop: () => set({ currentSong: null, isPlaying: false }),
 }));

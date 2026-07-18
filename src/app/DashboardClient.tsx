@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LogOut } from "lucide-react";
 import OnboardingModal from "@/components/OnboardingModal";
 import CategorySection from "@/components/CategorySection";
 import GlobalPlayer from "@/components/GlobalPlayer";
@@ -106,6 +107,10 @@ export default function DashboardClient() {
           <OnboardingModal onComplete={handleOnboardingComplete} />
         )}
       </AnimatePresence>
+
+      <button onClick={() => signOut()} className={styles.logoutIconBtn} title="Logout">
+        <LogOut size={20} />
+      </button>
 
       <main className={styles.main}>
         <motion.div

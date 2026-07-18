@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, X, Loader2, Play } from "lucide-react";
+import { Search, X, Loader2, Play, Pause } from "lucide-react";
 import { Song } from "@/app/DashboardClient";
 import styles from "./SongSearchModal.module.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,7 +20,7 @@ export default function SongSearchModal({
   categoryTitle,
   initialSearchQuery,
 }: SongSearchModalProps) {
-  const { playSong } = usePlayerStore();
+  const { currentSong, isPlaying, playSong, pause, resume } = usePlayerStore();
   const [query, setQuery] = useState(initialSearchQuery || `${categoryTitle} wedding songs`);
   const [results, setResults] = useState<Song[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -121,11 +121,21 @@ export default function SongSearchModal({
               <div className={styles.actionButtons}>
                 <button
                   type="button"
-                  className={styles.playActionBtn}
-                  onClick={() => playSong(song)}
-                  title="Play Preview"
+                  className={`${styles.playActionBtn} ${currentSong?.id === song.id && isPlaying ? styles.playingBtn : ""}`}
+                  onClick={() => {
+                    if (currentSong?.id === song.id) {
+                      isPlaying ? pause() : resume();
+                    } else {
+                      playSong(song);
+                    }
+                  }}
+                  title={currentSong?.id === song.id && isPlaying ? "Pause" : "Play Preview"}
                 >
-                  <Play size={16} className={styles.playIcon} /> Play
+                  {currentSong?.id === song.id && isPlaying ? (
+                    <><Pause size={16} className={styles.playIcon} /> Pause</>
+                  ) : (
+                    <><Play size={16} className={styles.playIcon} /> Play</>
+                  )}
                 </button>
                 <button
                   type="button"

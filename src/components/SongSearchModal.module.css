@@ -230,6 +230,16 @@
   background: #cc0000;
 }
 
+.playingBtn {
+  background: #cc0000;
+  animation: pulsePlay 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsePlay {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 0, 0, 0); }
+}
+
 .playIcon {
   fill: currentColor;
 }

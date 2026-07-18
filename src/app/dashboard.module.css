@@ -94,6 +94,14 @@
   margin-bottom: 3rem;
 }
 
+.mainLogo {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto 1.5rem auto;
+  display: block;
+}
+
 .intro h1, .welcomeHeading {
   font-size: 2.5rem;
   font-weight: 700;

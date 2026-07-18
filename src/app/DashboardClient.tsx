@@ -118,6 +118,7 @@ export default function DashboardClient() {
           animate={{ opacity: 1, y: 0 }}
           className={styles.intro}
         >
+          <img src="/logo.png" alt="Golden Moment" className={styles.mainLogo} />
           <h1 className={styles.welcomeHeading}>
             Welcome,<br />
             <span className={styles.clientName}>

@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function GlobalPlayer() {
   const { currentSong, isPlaying, pause, resume } = usePlayerStore();
   const [mounted, setMounted] = useState(false);
-  const playerRef = useRef<ReactPlayer>(null);
+  const playerRef = useRef<any>(null);
 
   useEffect(() => {
     setMounted(true);

@@ -137,16 +137,6 @@ export default function DashboardClient() {
           <p>Please select the soundtrack for your wedding films below.</p>
         </motion.div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", background: "white", padding: "15px 25px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
-           <div>
-             <span style={{ color: "#666", fontSize: "0.9rem" }}>Order ID: </span>
-             <strong style={{ color: "var(--color-bg-accent)", fontSize: "1.1rem" }}>{projectId}</strong>
-           </div>
-           <button onClick={() => setIsModalOpen(true)} style={{ background: "none", border: "1px solid #ccc", padding: "6px 12px", borderRadius: "6px", cursor: "pointer", fontSize: "0.9rem" }}>
-             Change Order
-           </button>
-        </div>
-
         <div className={styles.tabsContainer}>
           {CATEGORIES.map((cat) => (
             <button

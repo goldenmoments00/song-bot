@@ -86,10 +86,16 @@
   margin-bottom: 3rem;
 }
 
-.intro h1 {
+.intro h1, .welcomeHeading {
   font-size: 2.5rem;
   font-weight: 300;
   margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.clientName {
+  font-weight: 600;
+  color: var(--color-accent);
 }
 
 .intro p {

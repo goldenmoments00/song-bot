@@ -113,7 +113,12 @@ export default function DashboardClient() {
           animate={{ opacity: 1, y: 0 }}
           className={styles.intro}
         >
-          <h1>Welcome, {brideName || groomName ? `${brideName} & ${groomName}` : "Client"}</h1>
+          <h1 className={styles.welcomeHeading}>
+            Welcome,<br />
+            <span className={styles.clientName}>
+              {brideName || groomName ? `${brideName} & ${groomName}` : "Client"}
+            </span>
+          </h1>
           <p>Please select the soundtrack for your wedding films below.</p>
         </motion.div>
 

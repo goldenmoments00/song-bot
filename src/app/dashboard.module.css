@@ -94,8 +94,12 @@
 }
 
 .clientName {
-  font-weight: 600;
+  font-family: var(--font-cursive);
+  font-size: 3.5rem;
+  font-weight: 400;
   color: var(--color-accent);
+  display: inline-block;
+  margin-top: 0.5rem;
 }
 
 .intro p {

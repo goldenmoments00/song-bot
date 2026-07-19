@@ -47,19 +47,14 @@
   color: white;
 }
 
-.logo {
-  width: 64px;
-  height: 64px;
+.logoImage {
+  width: 80px;
+  height: 80px;
   margin: 0 auto 1.5rem;
-  background: white;
-  color: #8A151B;
+  display: block;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .title {

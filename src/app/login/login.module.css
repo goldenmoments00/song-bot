@@ -48,15 +48,13 @@
 }
 
 .logoImage {
-  width: 180px;
-  height: auto;
-  object-fit: contain;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
   margin: 0 auto 1.5rem auto;
   display: block;
-  background-color: var(--color-text-main);
-  padding: 12px 24px;
-  border-radius: 50px;
-  box-shadow: var(--shadow-soft);
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .title {

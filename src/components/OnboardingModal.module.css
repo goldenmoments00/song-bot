@@ -13,7 +13,7 @@
 }
 
 .modal {
-  background: var(--color-bg-base);
+  background: var(--color-white);
   border: 1px solid rgba(140, 19, 39, 0.2);
   border-radius: 20px;
   padding: 40px;
@@ -48,7 +48,7 @@
   display: block;
   font-weight: 600;
   margin-bottom: 8px;
-  color: white;
+  color: var(--color-text-main);
 }
 
 .input {
@@ -60,6 +60,13 @@
   outline: none;
   transition: all 0.2s ease;
   background: #fff;
+}
+
+.description {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 8px;
+  line-height: 1.4;
 }
 
 .input:focus {

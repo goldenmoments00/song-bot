@@ -103,6 +103,9 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
                   onKeyDown={(e) => e.key === "Enter" && handleNext()}
                   autoFocus
                 />
+                <p className={styles.description}>
+                  If you don't know your Client ID, ask your editor or call the team and ask for the ID (it is on your agreement and every bill).
+                </p>
               </div>
               <button 
                 className={styles.button} 

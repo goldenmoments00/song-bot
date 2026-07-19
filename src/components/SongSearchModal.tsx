@@ -25,6 +25,8 @@ export default function SongSearchModal({
   const [results, setResults] = useState<Song[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState("");
+  const [customLink, setCustomLink] = useState("");
+  const [customTitle, setCustomTitle] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const performSearch = async (searchQuery: string) => {
@@ -64,6 +66,21 @@ export default function SongSearchModal({
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     performSearch(query);
+  };
+
+  const handleCustomLinkAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customLink.trim()) return;
+    
+    const newSong: Song = {
+      id: `custom-${Date.now()}`,
+      title: customTitle.trim() || "Custom Song Link",
+      channel: "Custom Link",
+      thumbnail: "/small.png",
+      url: customLink,
+    };
+    
+    onSelect(newSong);
   };
 
   return (
@@ -147,6 +164,30 @@ export default function SongSearchModal({
               </div>
             </div>
           ))}
+        </div>
+
+        <div className={styles.customLinkSection}>
+          <div className={styles.customLinkDivider}>
+            <span>Or add a custom link</span>
+          </div>
+          <form onSubmit={handleCustomLinkAdd} className={styles.customLinkForm}>
+            <input 
+              type="text" 
+              placeholder="Song Name (Optional)" 
+              value={customTitle} 
+              onChange={e => setCustomTitle(e.target.value)} 
+              className={styles.customInput}
+            />
+            <input 
+              type="url" 
+              placeholder="Paste link (e.g. Spotify, Drive)" 
+              value={customLink} 
+              onChange={e => setCustomLink(e.target.value)} 
+              className={styles.customInput}
+              required
+            />
+            <button type="submit" className={styles.customAddBtn}>Add Custom Link</button>
+          </form>
         </div>
       </motion.div>
     </div>

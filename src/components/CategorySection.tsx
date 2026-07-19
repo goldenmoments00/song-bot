@@ -43,6 +43,7 @@ export default function CategorySection({
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [initialSearchQuery, setInitialSearchQuery] = useState("");
   const [notification, setNotification] = useState<string | null>(null);
+  const [customLink, setCustomLink] = useState("");
   const { currentSong, isPlaying, playSong, pause, resume } = usePlayerStore();
 
   const sensors = useSensors(
@@ -89,12 +90,47 @@ export default function CategorySection({
     setIsSearchOpen(false);
   };
 
+  const handleCustomLinkAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customLink.trim()) return;
+    
+    const newSong: Song = {
+      id: `custom-${Date.now()}`,
+      title: "Custom Song Link",
+      channel: "Custom Link",
+      thumbnail: "/small.png",
+      url: customLink,
+    };
+    
+    handleAdd(newSong);
+    setCustomLink("");
+  };
+
   return (
     <div className={styles.section}>
       <div className={styles.header}>
         <h3 className={styles.title}>{title}</h3>
         <span className={styles.count}>{songs.length}/5</span>
       </div>
+
+      {songs.length < 5 && (
+        <div className={styles.customLinkSection}>
+          <div className={styles.customLinkDivider}>
+            <span>Or add a custom link</span>
+          </div>
+          <form onSubmit={handleCustomLinkAdd} className={styles.customLinkForm}>
+            <input 
+              type="url" 
+              placeholder="Paste link (e.g. Spotify, Drive)" 
+              value={customLink} 
+              onChange={e => setCustomLink(e.target.value)} 
+              className={styles.customInput}
+              required
+            />
+            <button type="submit" className={styles.customAddBtn}>Add Custom Link</button>
+          </form>
+        </div>
+      )}
 
       {notification && (
         <div className={styles.notificationToast}>

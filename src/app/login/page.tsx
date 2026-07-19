@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import styles from "./login.module.css";
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
+import Image from "next/image";
 
 export default function LoginPage() {
   return (
@@ -18,7 +19,9 @@ export default function LoginPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <img src="/gm-logo.png" alt="Golden Moment Logo" className={styles.logoImage} />
+        <div className={styles.logoWrapper}>
+          <Image src="/gm-logo.png" alt="Golden Moment Logo" width={90} height={90} className={styles.logoImage} />
+        </div>
         <h1 className={styles.title}>GoldenMoment</h1>
         <p className={styles.subtitle}>
           Curate the soundtrack for your wedding film.

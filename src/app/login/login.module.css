@@ -47,14 +47,24 @@
   color: white;
 }
 
-.logoImage {
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 1.5rem auto;
   width: 90px;
   height: 90px;
-  object-fit: cover;
-  margin: 0 auto 1.5rem auto;
-  display: block;
   border-radius: 50%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  background-color: white;
+}
+
+.logoImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .title {

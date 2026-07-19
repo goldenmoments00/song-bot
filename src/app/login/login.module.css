@@ -54,10 +54,6 @@
   margin: 0 auto 1.5rem auto;
   width: 90px;
   height: 90px;
-  border-radius: 50%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  background-color: white;
 }
 
 .logoImage {

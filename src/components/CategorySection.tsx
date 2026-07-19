@@ -113,24 +113,6 @@ export default function CategorySection({
         <span className={styles.count}>{songs.length}/5</span>
       </div>
 
-      {songs.length < 5 && (
-        <div className={styles.customLinkSection}>
-          <div className={styles.customLinkDivider}>
-            <span>Or add a custom link</span>
-          </div>
-          <form onSubmit={handleCustomLinkAdd} className={styles.customLinkForm}>
-            <input 
-              type="url" 
-              placeholder="Paste link (e.g. Spotify, Drive)" 
-              value={customLink} 
-              onChange={e => setCustomLink(e.target.value)} 
-              className={styles.customInput}
-              required
-            />
-            <button type="submit" className={styles.customAddBtn}>Add Custom Link</button>
-          </form>
-        </div>
-      )}
 
       {notification && (
         <div className={styles.notificationToast}>
@@ -174,6 +156,24 @@ export default function CategorySection({
             <Plus size={18} />
             Add Song for {title}
           </button>
+          
+          <div className={styles.customLinkSection}>
+            <div className={styles.customLinkDivider}>
+              <span>Or add a custom link</span>
+            </div>
+            <form onSubmit={handleCustomLinkAdd} className={styles.customLinkForm}>
+              <input 
+                type="url" 
+                placeholder="Paste link (e.g. Spotify, Drive)" 
+                value={customLink} 
+                onChange={e => setCustomLink(e.target.value)} 
+                className={styles.customInput}
+                required
+              />
+              <button type="submit" className={styles.customAddBtn}>Add Custom Link</button>
+            </form>
+          </div>
+          
           {CATEGORY_SUGGESTIONS[title] && CATEGORY_SUGGESTIONS[title].length > 0 && (
             <div className={styles.suggestionsContainer}>
               <span className={styles.suggestionsLabel}>Popular Ideas:</span>

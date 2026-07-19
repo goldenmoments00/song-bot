@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "GoldenMoment - Song Selection",
   description: "Premium wedding song selection portal by GoldenMoment.",
   icons: {
-    icon: "/gm-logo.png?v=2",
+    icon: "/gm-logo.png?v=3",
   }
 };
 

@@ -17,7 +17,7 @@ export default function LoginPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <img src="/gm-logo.png" alt="Golden Moment Logo" className={styles.logoImage} />
+        <img src="/logo.png" alt="Golden Moment Logo" className={styles.logoImage} />
         <h1 className={styles.title}>GoldenMoment</h1>
         <p className={styles.subtitle}>
           Curate the soundtrack for your wedding film.

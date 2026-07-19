@@ -125,7 +125,9 @@ export default function DashboardClient() {
               {brideName || groomName ? `${brideName} & ${groomName}` : "Client"}
             </span>
           </h1>
-          <p>Please select the soundtrack for your wedding films below.</p>
+          <p className={styles.highlightText}>
+            Please select the soundtrack for your wedding films below.
+          </p>
           <div className={styles.saveActionContainer}>
             <button onClick={handleSave} className={styles.mainSaveBtn} disabled={isSaving}>
               {isSaving ? "Saving..." : saveStatus === "saved" ? "Saved Successfully" : "Save Changes"}

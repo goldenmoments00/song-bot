@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LogOut } from "lucide-react";
+import { LogOut, ChevronLeft, HelpCircle, Moon, CheckCircle } from "lucide-react";
 import OnboardingModal from "@/components/OnboardingModal";
 import CategorySection from "@/components/CategorySection";
 import GlobalPlayer from "@/components/GlobalPlayer";
@@ -21,6 +21,19 @@ const CATEGORIES = [
   "Highlight",
   "Reel",
 ];
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  "Bride Ashirbad": "/bride.png",
+  "Groom Ashirbad": "/groom.png",
+  "Engagement": "https://images.unsplash.com/photo-1549416878-b9ca95e1bb34?auto=format&fit=crop&q=80",
+  "Haldi": "https://images.unsplash.com/photo-1621841355461-89307775945c?auto=format&fit=crop&q=80",
+  "Bride Briddhi": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80",
+  "Groom Entry": "https://images.unsplash.com/photo-1614264669534-11e4056263f3?auto=format&fit=crop&q=80",
+  "Wedding": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80",
+  "Reception": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80",
+  "Highlight": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80",
+  "Reel": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80",
+};
 
 export type Song = {
   id: string;
@@ -40,7 +53,8 @@ export default function DashboardClient() {
   const [selections, setSelections] = useState<Selections>({});
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
-  const [activeCategory, setActiveCategory] = useState<string>(CATEGORIES[0]);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -108,59 +122,74 @@ export default function DashboardClient() {
         )}
       </AnimatePresence>
 
-      <button onClick={() => signOut()} className={styles.logoutIconBtn} title="Logout">
-        <LogOut size={20} />
-      </button>
-
       <main className={styles.main}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={styles.intro}
-        >
-          <img src="/logo.png" alt="Golden Moment" className={styles.mainLogo} />
-          <h1 className={styles.welcomeHeading}>
-            Welcome,<br />
-            <span className={styles.clientName}>
-              {brideName || groomName ? `${brideName} & ${groomName}` : "Client"}
-            </span>
-          </h1>
-          <p className={styles.highlightText}>
-            Please select the soundtrack for your wedding films below.
-          </p>
-          <div className={styles.saveActionContainer}>
-            <button onClick={handleSave} className={styles.mainSaveBtn} disabled={isSaving}>
-              {isSaving ? "Saving..." : saveStatus === "saved" ? "Saved Successfully" : "Save Changes"}
+        {/* Top Bar for Dashboard matching the reference */}
+        <div className={styles.dashboardTopBar}>
+          <button onClick={() => signOut()} className={styles.backBtn} title="Logout">
+            <ChevronLeft size={24} />
+          </button>
+          
+          <div className={styles.topBarTitle}>
+            <h3>Select an Event</h3>
+            <p>
+              {brideName || groomName ? `${brideName} & ${groomName}` : "Client"} 
+              {projectId ? ` • Order #${projectId}` : ""}
+            </p>
+          </div>
+
+          <div className={styles.topBarActions}>
+            <button className={styles.circleActionBtn}>
+              <HelpCircle size={18} />
+            </button>
+            <button className={styles.circleActionBtn}>
+              <Moon size={18} />
+            </button>
+            <button 
+              className={`${styles.circleActionBtn} ${saveStatus === 'saved' ? styles.savedBtn : ''}`}
+              onClick={handleSave}
+              disabled={isSaving}
+              title="Save Changes"
+            >
+              <CheckCircle size={18} />
             </button>
           </div>
-        </motion.div>
+        </div>
 
-        <div className={styles.tabsContainer}>
+        <div className={styles.categoryCardList}>
           {CATEGORIES.map((cat) => (
-            <button
+            <div
               key={cat}
-              className={`${styles.tabBtn} ${activeCategory === cat ? styles.activeTab : ""}`}
-              onClick={() => setActiveCategory(cat)}
+              className={styles.categoryCard}
+              style={{ backgroundImage: `url('${CATEGORY_IMAGES[cat]}')` }}
+              onClick={() => {
+                setActiveCategory(cat);
+                setIsCategoryModalOpen(true);
+              }}
             >
-              {cat}
-              {selections[cat]?.length > 0 && (
-                <span className={styles.tabBadge}>{selections[cat].length}</span>
-              )}
-            </button>
+              <h2 className={styles.cardTitle}>{cat}</h2>
+              <div className={styles.cardBadge}>
+                🎵 {selections[cat]?.length || 0}/3 songs
+              </div>
+              <div className={styles.cardCircleHint}></div>
+            </div>
           ))}
         </div>
 
-        <div className={styles.categoryContent}>
-          <CategorySection
-            key={activeCategory}
-            title={activeCategory}
-            songs={selections[activeCategory] || []}
-            allSelections={selections}
-            onChange={(newSongs) =>
-              setSelections((prev) => ({ ...prev, [activeCategory]: newSongs }))
-            }
-          />
-        </div>
+        <AnimatePresence>
+          {isCategoryModalOpen && activeCategory && (
+            <CategorySection
+              key={activeCategory}
+              title={activeCategory}
+              songs={selections[activeCategory] || []}
+              allSelections={selections}
+              onChange={(newSongs) =>
+                setSelections((prev) => ({ ...prev, [activeCategory]: newSongs }))
+              }
+              onClose={() => setIsCategoryModalOpen(false)}
+              backgroundImage={CATEGORY_IMAGES[activeCategory]}
+            />
+          )}
+        </AnimatePresence>
       </main>
 
       <GlobalPlayer />

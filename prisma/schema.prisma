@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  projectId String   @unique // This is the 4-digit order ID
+  brideName String
+  groomName String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  selections SongSelection[]
+}
+
+model SongSelection {
+  id        String @id @default(cuid())
+  orderId   String
+  category  String // e.g. "Bride Ashirbad"
+  songId    String // YouTube video ID
+  title     String // Song title
+  url       String // YouTube URL
+  thumbnail String // Thumbnail URL
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}

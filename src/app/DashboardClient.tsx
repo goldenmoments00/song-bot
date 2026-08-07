@@ -7,6 +7,8 @@ import { LogOut, ChevronLeft, HelpCircle, Moon, CheckCircle } from "lucide-react
 import OnboardingModal from "@/components/OnboardingModal";
 import CategorySection from "@/components/CategorySection";
 import GlobalPlayer from "@/components/GlobalPlayer";
+import { Joyride, CallBackProps, STATUS, Step } from "react-joyride";
+import TourTooltip from "@/components/TourTooltip";
 import styles from "./dashboard.module.css";
 
 const CATEGORIES = [
@@ -45,6 +47,40 @@ export type Song = {
 
 export type Selections = Record<string, Song[]>;
 
+const TOUR_STEPS: Step[] = [
+  {
+    target: ".tour-step-1",
+    title: "Welcome!",
+    content: "Click here to view your wedding events and start selecting songs.",
+    disableBeacon: true,
+    placement: "bottom",
+  },
+  {
+    target: ".tour-step-2",
+    title: "Event Cards",
+    content: "Each card represents a wedding ceremony. Click on any card to choose songs for it.",
+    placement: "bottom",
+  },
+  {
+    target: ".tour-step-3",
+    title: "Save & Lock",
+    content: "Once done, click Submit to send your selections to the studio. The form will be locked afterward.",
+    placement: "top",
+  },
+  {
+    target: ".tour-step-4",
+    title: "Pick Songs",
+    content: "Tap + to add a song. Preview by clicking the thumbnail. Add up to 3 per event.",
+    placement: "bottom",
+  },
+  {
+    target: ".tour-step-5",
+    title: "Add Your Own",
+    content: "Paste a YouTube link or search YouTube directly to add a custom song.",
+    placement: "top",
+  }
+];
+
 export default function DashboardClient() {
   const { data: session } = useSession();
   const [projectId, setProjectId] = useState("");
@@ -57,6 +93,33 @@ export default function DashboardClient() {
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(true);
+
+  // Tour State
+  const [runTour, setRunTour] = useState(false);
+
+  useEffect(() => {
+    if (!isModalOpen && !localStorage.getItem("hasSeenTour")) {
+      // Small delay to ensure UI is ready
+      setTimeout(() => setRunTour(true), 500);
+    }
+  }, [isModalOpen]);
+
+
+
+  const handleJoyrideCallback = (data: CallBackProps) => {
+    const { status, type, index, action } = data;
+    
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status as any)) {
+      setRunTour(false);
+      localStorage.setItem("hasSeenTour", "true");
+    } else if (type === "step:after" && action === "next" && index === 2) {
+      // The user clicked "Next" on Step 3. 
+      // Joyride will automatically look for Step 4 (.tour-step-4) and wait up to 1000ms.
+      // We just need to trigger the modal to open right now so it can find it.
+      setActiveCategory(CATEGORIES[0]);
+      setIsCategoryModalOpen(true);
+    }
+  };
 
   // We no longer auto-fetch here because the OnboardingModal handles the initial fetch.
 
@@ -116,9 +179,39 @@ export default function DashboardClient() {
 
   return (
     <div className={styles.container}>
+      <Joyride
+        steps={TOUR_STEPS}
+        run={runTour}
+        callback={handleJoyrideCallback}
+        continuous
+        showSkipButton
+        disableOverlayClose
+        hideCloseButton
+        tooltipComponent={TourTooltip}
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+      />
+
       <AnimatePresence>
         {isModalOpen && (
           <OnboardingModal onComplete={handleOnboardingComplete} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {saveStatus === 'saved' && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20, x: "-50%" }} 
+            animate={{ opacity: 1, y: 0, x: "-50%" }} 
+            exit={{ opacity: 0, y: -20, x: "-50%" }}
+            className={styles.autoSaveToast}
+          >
+            <CheckCircle size={20} className={styles.autoSaveIcon} />
+            Auto-saved successfully
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -156,10 +249,10 @@ export default function DashboardClient() {
         </div>
 
         <div className={styles.categoryCardList}>
-          {CATEGORIES.map((cat) => (
+          {CATEGORIES.map((cat, index) => (
             <div
               key={cat}
-              className={styles.categoryCard}
+              className={`${styles.categoryCard} ${index === 0 ? 'tour-step-1' : index === 1 ? 'tour-step-2' : ''}`}
               style={{ backgroundImage: `url('${CATEGORY_IMAGES[cat]}')` }}
               onClick={() => {
                 setActiveCategory(cat);
@@ -191,6 +284,23 @@ export default function DashboardClient() {
           )}
         </AnimatePresence>
       </main>
+
+      {/* Sticky Footer */}
+      <div className={`tour-step-3 ${styles.stickyFooter}`}>
+        <div className={styles.submitWrapper}>
+          <button 
+            className={styles.submitBtn} 
+            onClick={handleSave} 
+            disabled={isSaving}
+          >
+            <CheckCircle size={20} />
+            {saveStatus === 'saving' ? "Saving..." : saveStatus === 'saved' ? "Saved!" : `Submit All Selections (${Object.values(selections).flat().length} songs)`}
+          </button>
+          <p className={styles.submitSubtitle}>
+            {Object.values(selections).flat().length} of {CATEGORIES.length * 3} songs selected across {CATEGORIES.length} events
+          </p>
+        </div>
+      </div>
 
       <GlobalPlayer />
     </div>

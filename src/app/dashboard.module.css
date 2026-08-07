@@ -156,6 +156,29 @@
   border-color: #de446d;
 }
 
+.autoSaveToast {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f4f3ec;
+  color: #3b3337;
+  padding: 0.6rem 1.25rem;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  z-index: 10000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.autoSaveIcon {
+  color: #2e7d32;
+}
+
 .main {
   max-width: 768px;
   margin: 0 auto;
@@ -240,4 +263,63 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   z-index: 2;
   background: rgba(255,255,255,0.05);
+}
+
+.stickyFooter {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #0f0a10;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.submitWrapper {
+  width: 100%;
+  max-width: 768px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.submitBtn {
+  width: 100%;
+  background: #ffb4c8;
+  color: #72093e;
+  border: none;
+  border-radius: 30px;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 15px rgba(255, 180, 200, 0.2);
+}
+
+.submitBtn:hover {
+  transform: scale(1.02);
+  background: white;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submitSubtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  margin: 0;
 }

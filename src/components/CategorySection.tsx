@@ -139,9 +139,11 @@ export default function CategorySection({
           {/* Rounded Banner Image */}
           <div 
             className={styles.bannerImageCard}
-            style={{ backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url('${backgroundImage}')` }}
+            style={{ backgroundImage: `url('${backgroundImage}')` }}
           >
-            <h2 className={styles.bannerTitleText}>{title}</h2>
+            <div className={styles.bannerGlassOverlay}>
+              <h2 className={styles.bannerTitleText}>{title}</h2>
+            </div>
           </div>
 
           <div className={styles.progressBanner}>
@@ -183,8 +185,8 @@ export default function CategorySection({
                     </div>
                     
                     <div className={styles.mobileSuggestions}>
-                      {CATEGORY_SUGGESTIONS[title].map((song) => (
-                        <div key={song.id} className={styles.mobileSongCardContainer}>
+                      {CATEGORY_SUGGESTIONS[title].map((song, index) => (
+                        <div key={song.id} className={`${styles.mobileSongCardContainer} ${index === 0 ? 'tour-step-4' : ''}`}>
                           <div className={styles.mobileSongRow}>
                             <div className={styles.thumbContainer}>
                               <img src={song.thumbnail} alt={song.title} className={styles.mobileThumb} />
@@ -254,7 +256,7 @@ export default function CategorySection({
                   </div>
                 )}
 
-                <div className={styles.customLinkCard}>
+                <div className={`tour-step-5 ${styles.customLinkCard}`}>
                   <div className={styles.cardHeader}>
                     <h4>Add Your Own Song</h4>
                     <p>Paste a YouTube link to add a custom song</p>

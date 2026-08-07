@@ -2,9 +2,12 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: #0f0a10;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
   overflow: hidden;
   animation: modalFadeIn 0.3s ease-out;
 }
@@ -18,10 +21,15 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 90vh;
   width: 100%;
   max-width: 768px;
   margin: 0 auto;
   background: #0f0a10;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Top Navigation Bar */
@@ -103,6 +111,40 @@
 .modalBody {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+.bannerImageCard {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background-size: cover;
+  background-position: center;
+  min-height: 140px;
+  display: flex;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bannerGlassOverlay {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 1.5rem;
+}
+
+.bannerTitleText {
+  color: white;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  letter-spacing: 1px;
 }
 
 .progressBanner {
@@ -246,6 +288,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transform: scale(1.35);
   transition: transform 0.3s ease;
 }
 
@@ -355,7 +398,7 @@
   }
 
   .thumbContainer:hover .mobileThumb {
-    transform: scale(1.05);
+    transform: scale(1.45);
   }
 
   .mobileOnlyPlayBtn, 

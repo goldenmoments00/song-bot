@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./OnboardingModal.module.css";
 import { ArrowRight, Check } from "lucide-react";
@@ -12,30 +12,33 @@ interface OnboardingModalProps {
 
 export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
-  const [projectId, setProjectId] = useState("");
+  const [otp, setOtp] = useState(['', '', '', '']);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [brideName, setBrideName] = useState("");
   const [groomName, setGroomName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleNext = async () => {
-    if (!projectId.trim()) {
-      setError("Please enter your Order ID.");
+    const currentProjectId = otp.join('');
+    if (currentProjectId.length !== 4) {
+      setError("Please enter a valid 4-digit Order ID.");
       return;
     }
     
+    const fullProjectId = "#" + currentProjectId;
     setError("");
     setIsLoading(true);
 
     try {
-      const res = await fetch(`/api/songs?projectId=${encodeURIComponent(projectId.trim())}`);
+      const res = await fetch(`/api/songs?projectId=${encodeURIComponent(fullProjectId)}`);
       if (res.ok) {
         const data = await res.json();
         
         // If data exists, it's an existing order
         if (data.brideName || data.groomName || (data.selections && Object.keys(data.selections).length > 0)) {
            // Skip step 2 and go straight to the dashboard with loaded data
-           onComplete(projectId.trim(), data.brideName || "", data.groomName || "", data.selections || {});
+           onComplete(fullProjectId, data.brideName || "", data.groomName || "", data.selections || {});
            return;
         }
       }
@@ -50,19 +53,14 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
     setStep(2);
   };
 
-  const handleProjectIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/\D/g, '');
-    const truncated = rawValue.slice(0, 4);
-    setProjectId(truncated ? '#' + truncated : '');
-  };
-
   const handleFinish = () => {
     if (!brideName.trim() || !groomName.trim()) {
       setError("Please enter both Bride and Groom names.");
       return;
     }
     // Pass empty selections since it's a new order
-    onComplete(projectId.trim(), brideName.trim(), groomName.trim(), {});
+    const fullProjectId = "#" + otp.join("");
+    onComplete(fullProjectId, brideName.trim(), groomName.trim(), {});
   };
 
   return (
@@ -92,17 +90,52 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
             >
               <div className={styles.formGroup}>
                 <label className={styles.label}>Order ID (Client ID)</label>
-                <input
-                  type="tel"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  value={projectId}
-                  onChange={handleProjectIdChange}
-                  placeholder="#1020"
-                  className={styles.input}
-                  onKeyDown={(e) => e.key === "Enter" && handleNext()}
-                  autoFocus
-                />
+                <div className={styles.otpContainer}>
+                  {otp.map((digit, index) => (
+                    <input
+                      key={index}
+                      ref={el => {
+                        inputRefs.current[index] = el;
+                      }}
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, '');
+                        const newOtp = [...otp];
+                        newOtp[index] = val.slice(-1);
+                        setOtp(newOtp);
+                        if (val && index < 3) {
+                          inputRefs.current[index + 1]?.focus();
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace" && !otp[index] && index > 0) {
+                          inputRefs.current[index - 1]?.focus();
+                        } else if (e.key === "Enter" && otp.every(d => d !== "")) {
+                          handleNext();
+                        }
+                      }}
+                      onPaste={(e) => {
+                        e.preventDefault();
+                        const pasted = e.clipboardData.getData("text").replace(/\D/g, '').slice(0, 4);
+                        if (pasted) {
+                          const newOtp = [...otp];
+                          for (let i = 0; i < pasted.length; i++) {
+                            if (i < 4) newOtp[i] = pasted[i];
+                          }
+                          setOtp(newOtp);
+                          const focusIndex = Math.min(pasted.length, 3);
+                          inputRefs.current[focusIndex]?.focus();
+                        }
+                      }}
+                      className={styles.otpInput}
+                      autoFocus={index === 0}
+                    />
+                  ))}
+                </div>
                 <p className={styles.description}>
                   If you don't know your Client ID, ask your editor or call the team and ask for the ID (it is on your agreement and every bill).
                 </p>
@@ -110,7 +143,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
               <button 
                 className={styles.button} 
                 onClick={handleNext}
-                disabled={isLoading || !projectId.trim()}
+                disabled={isLoading || otp.some(d => d === '')}
               >
                 {isLoading ? <div className={styles.loader} /> : (
                   <>Continue <ArrowRight size={20} /></>

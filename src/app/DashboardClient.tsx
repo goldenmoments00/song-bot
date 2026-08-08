@@ -34,22 +34,22 @@ const RICE_CEREMONY_CATEGORIES = [
 ];
 
 const CATEGORY_IMAGES: Record<string, string> = {
-  "Bride Ashirbad": "/bride.png",
-  "Groom Ashirbad": "/groom.png",
-  "Engagement": "/engagement.png",
-  "Haldi": "/haldi.png",
-  "Bride Briddhi": "/Bride Briddhi.png",
-  "Groom Entry": "/groomentry.png",
-  "Wedding": "/wedding.png",
-  "Reception": "/Reception.png",
-  "Highlight": "/Highlight.png",
-  "Reel": "/Reel.png",
-  "Main Event": "/RC-MAINEVENT.png",
+  "Bride Ashirbad": "/bride.webp",
+  "Groom Ashirbad": "/groom.webp",
+  "Engagement": "/engagement.webp",
+  "Haldi": "/haldi.webp",
+  "Bride Briddhi": "/Bride Briddhi.webp",
+  "Groom Entry": "/groomentry.webp",
+  "Wedding": "/wedding.webp",
+  "Reception": "/Reception.webp",
+  "Highlight": "/Highlight.webp",
+  "Reel": "/Reel.webp",
+  "Main Event": "/RC-MAINEVENT.webp",
 };
 
 const getCatImage = (cat: string, eventType: string) => {
-  if (eventType === "riceceremony" && cat === "Highlight") return "/RC-HIGHLIGHT.png";
-  return CATEGORY_IMAGES[cat] || "/wedding.png";
+  if (eventType === "riceceremony" && cat === "Highlight") return "/RC-HIGHLIGHT.webp";
+  return CATEGORY_IMAGES[cat] || "/wedding.webp";
 };
 
 export type Song = {

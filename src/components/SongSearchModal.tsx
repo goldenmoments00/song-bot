@@ -12,6 +12,7 @@ interface SongSearchModalProps {
   onSelect: (song: Song) => void;
   categoryTitle: string;
   initialSearchQuery?: string;
+  eventType?: "wedding" | "riceceremony";
 }
 
 export default function SongSearchModal({
@@ -19,9 +20,27 @@ export default function SongSearchModal({
   onSelect,
   categoryTitle,
   initialSearchQuery,
+  eventType = "wedding",
 }: SongSearchModalProps) {
   const { currentSong, isPlaying, playSong, pause, resume } = usePlayerStore();
-  const [query, setQuery] = useState(initialSearchQuery || `${categoryTitle} wedding songs`);
+  
+  const getDefaultQuery = () => {
+    const isRiceCeremony = eventType === "riceceremony";
+    console.log("SongSearchModal mounted with eventType:", eventType, "isRiceCeremony:", isRiceCeremony);
+    
+    if (isRiceCeremony) {
+      if (categoryTitle.toLowerCase() === "highlight") {
+        return "rice ceremony highlight";
+      }
+      if (categoryTitle.toLowerCase() === "main event") {
+        return "rice ceremony songs";
+      }
+      return `${categoryTitle} rice ceremony songs`;
+    }
+    return `${categoryTitle} wedding songs`;
+  };
+
+  const [query, setQuery] = useState(() => initialSearchQuery || getDefaultQuery());
   const [results, setResults] = useState<Song[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState("");
@@ -51,7 +70,7 @@ export default function SongSearchModal({
 
   useEffect(() => {
     // Automatically search for relevant songs as soon as the modal opens!
-    const queryToSearch = initialSearchQuery || `${categoryTitle} wedding songs`;
+    const queryToSearch = initialSearchQuery || getDefaultQuery();
     performSearch(queryToSearch);
     
     // Auto-focus input on mount

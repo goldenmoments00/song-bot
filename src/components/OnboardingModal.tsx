@@ -8,9 +8,10 @@ import type { Selections } from "@/app/DashboardClient";
 
 interface OnboardingModalProps {
   onComplete: (projectId: string, brideName: string, groomName: string, selections: Selections) => void;
+  eventType?: "wedding" | "riceceremony";
 }
 
-export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
+export default function OnboardingModal({ onComplete, eventType = "wedding" }: OnboardingModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
   const [otp, setOtp] = useState(['', '', '', '']);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -54,8 +55,12 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
   };
 
   const handleFinish = () => {
-    if (!brideName.trim() || !groomName.trim()) {
+    if (eventType === "wedding" && (!brideName.trim() || !groomName.trim())) {
       setError("Please enter both Bride and Groom names.");
+      return;
+    }
+    if (eventType === "riceceremony" && !brideName.trim()) {
+      setError("Please enter the client's name.");
       return;
     }
     // Pass empty selections since it's a new order
@@ -74,7 +79,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
         <div className={styles.header}>
           <img src="/small.png" alt="Golden Moment" className={styles.logo} />
           <p className={styles.subtitle}>
-            {step === 1 ? "Enter your Order ID to continue" : "Tell us about the couple"}
+            {step === 1 ? "Enter your Order ID to continue" : (eventType === "wedding" ? "Tell us about the couple" : "Tell us about the client")}
           </p>
         </div>
 
@@ -158,27 +163,36 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
               exit={{ opacity: 0, x: 20 }}
             >
               <div className={styles.formGroup}>
-                <label className={styles.label}>Bride Name</label>
+                <label className={styles.label}>
+                  {eventType === "wedding" ? "Bride Name" : "Client Name (or Baby Name)"}
+                </label>
                 <input
                   type="text"
                   value={brideName}
                   onChange={(e) => setBrideName(e.target.value)}
-                  placeholder="e.g. Rebaka"
+                  placeholder={eventType === "wedding" ? "e.g. Rebaka" : "e.g. Alex"}
                   className={styles.input}
                   autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && eventType === "riceceremony") {
+                      handleFinish();
+                    }
+                  }}
                 />
               </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Groom Name</label>
-                <input
-                  type="text"
-                  value={groomName}
-                  onChange={(e) => setGroomName(e.target.value)}
-                  placeholder="e.g. Alex"
-                  className={styles.input}
-                  onKeyDown={(e) => e.key === "Enter" && handleFinish()}
-                />
-              </div>
+              {eventType === "wedding" && (
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Groom Name</label>
+                  <input
+                    type="text"
+                    value={groomName}
+                    onChange={(e) => setGroomName(e.target.value)}
+                    placeholder="e.g. Alex"
+                    className={styles.input}
+                    onKeyDown={(e) => e.key === "Enter" && handleFinish()}
+                  />
+                </div>
+              )}
               <button 
                 className={styles.button} 
                 onClick={handleFinish}

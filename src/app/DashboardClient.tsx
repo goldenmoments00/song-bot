@@ -7,11 +7,14 @@ import { LogOut, ChevronLeft, HelpCircle, Moon, CheckCircle } from "lucide-react
 import OnboardingModal from "@/components/OnboardingModal";
 import CategorySection from "@/components/CategorySection";
 import GlobalPlayer from "@/components/GlobalPlayer";
-import { Joyride, CallBackProps, STATUS, Step } from "react-joyride";
+import * as JoyrideModule from "react-joyride";
+const Joyride = (JoyrideModule as any).Joyride || (JoyrideModule as any).default || JoyrideModule;
+const { STATUS } = JoyrideModule;
+type Step = any;
 import TourTooltip from "@/components/TourTooltip";
 import styles from "./dashboard.module.css";
 
-const CATEGORIES = [
+const WEDDING_CATEGORIES = [
   "Bride Ashirbad",
   "Groom Ashirbad",
   "Engagement",
@@ -22,6 +25,11 @@ const CATEGORIES = [
   "Reception",
   "Highlight",
   "Reel",
+];
+
+const RICE_CEREMONY_CATEGORIES = [
+  "Main Event",
+  "Highlight",
 ];
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -35,6 +43,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   "Reception": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80",
   "Highlight": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80",
   "Reel": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80",
+  "Main Event": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80",
 };
 
 export type Song = {
@@ -52,7 +61,6 @@ const TOUR_STEPS: Step[] = [
     target: ".tour-step-1",
     title: "Welcome!",
     content: "Click here to view your wedding events and start selecting songs.",
-    disableBeacon: true,
     placement: "bottom",
   },
   {
@@ -81,7 +89,7 @@ const TOUR_STEPS: Step[] = [
   }
 ];
 
-export default function DashboardClient() {
+export default function DashboardClient({ eventType = "wedding" }: { eventType?: "wedding" | "riceceremony" }) {
   const { data: session } = useSession();
   const [projectId, setProjectId] = useState("");
   const [brideName, setBrideName] = useState("");
@@ -97,6 +105,8 @@ export default function DashboardClient() {
   // Tour State
   const [runTour, setRunTour] = useState(false);
 
+  const categories = eventType === "wedding" ? WEDDING_CATEGORIES : RICE_CEREMONY_CATEGORIES;
+
   useEffect(() => {
     if (!isModalOpen && !localStorage.getItem("hasSeenTour")) {
       // Small delay to ensure UI is ready
@@ -106,7 +116,7 @@ export default function DashboardClient() {
 
 
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleJoyrideCallback = (data: any) => {
     const { status, type, index, action } = data;
     
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status as any)) {
@@ -116,7 +126,7 @@ export default function DashboardClient() {
       // The user clicked "Next" on Step 3. 
       // Joyride will automatically look for Step 4 (.tour-step-4) and wait up to 1000ms.
       // We just need to trigger the modal to open right now so it can find it.
-      setActiveCategory(CATEGORIES[0]);
+      setActiveCategory(categories[0]);
       setIsCategoryModalOpen(true);
     }
   };
@@ -179,6 +189,7 @@ export default function DashboardClient() {
 
   return (
     <div className={styles.container}>
+      {/* @ts-ignore */}
       <Joyride
         steps={TOUR_STEPS}
         run={runTour}
@@ -192,12 +203,12 @@ export default function DashboardClient() {
           options: {
             zIndex: 10000,
           },
-        }}
+        } as any}
       />
 
       <AnimatePresence>
         {isModalOpen && (
-          <OnboardingModal onComplete={handleOnboardingComplete} />
+          <OnboardingModal onComplete={handleOnboardingComplete} eventType={eventType} />
         )}
       </AnimatePresence>
 
@@ -225,7 +236,9 @@ export default function DashboardClient() {
           <div className={styles.topBarTitle}>
             <h3>Select an Event</h3>
             <p>
-              {brideName || groomName ? `${brideName} & ${groomName}` : "Client"} 
+              {eventType === "wedding" 
+                ? (brideName || groomName ? `${brideName} & ${groomName}` : "Client")
+                : (brideName || "Client")}
               {projectId ? ` • Order #${projectId}` : ""}
             </p>
           </div>
@@ -249,7 +262,7 @@ export default function DashboardClient() {
         </div>
 
         <div className={styles.categoryCardList}>
-          {CATEGORIES.map((cat, index) => (
+          {categories.map((cat, index) => (
             <div
               key={cat}
               className={`${styles.categoryCard} ${index === 0 ? 'tour-step-1' : index === 1 ? 'tour-step-2' : ''}`}
@@ -280,6 +293,7 @@ export default function DashboardClient() {
               }
               onClose={() => setIsCategoryModalOpen(false)}
               backgroundImage={CATEGORY_IMAGES[activeCategory]}
+              eventType={eventType}
             />
           )}
         </AnimatePresence>
@@ -297,7 +311,7 @@ export default function DashboardClient() {
             {saveStatus === 'saving' ? "Saving..." : saveStatus === 'saved' ? "Saved!" : `Submit All Selections (${Object.values(selections).flat().length} songs)`}
           </button>
           <p className={styles.submitSubtitle}>
-            {Object.values(selections).flat().length} of {CATEGORIES.length * 3} songs selected across {CATEGORIES.length} events
+            {Object.values(selections).flat().length} of {categories.length * 3} songs selected across {categories.length} events
           </p>
         </div>
       </div>

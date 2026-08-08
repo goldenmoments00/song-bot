@@ -1,5 +1,5 @@
-import DashboardClient from "./DashboardClient";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return <DashboardClient />;
+  redirect("/wedding");
 }

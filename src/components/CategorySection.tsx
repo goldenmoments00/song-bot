@@ -34,6 +34,7 @@ interface CategorySectionProps {
   onChange: (songs: Song[]) => void;
   onClose: () => void;
   backgroundImage: string;
+  eventType?: "wedding" | "riceceremony";
 }
 
 export default function CategorySection({
@@ -43,6 +44,7 @@ export default function CategorySection({
   onChange,
   onClose,
   backgroundImage,
+  eventType = "wedding",
 }: CategorySectionProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [initialSearchQuery, setInitialSearchQuery] = useState("");
@@ -298,6 +300,7 @@ export default function CategorySection({
           onSelect={handleAdd}
           categoryTitle={title}
           initialSearchQuery={initialSearchQuery}
+          eventType={eventType}
         />
       )}
     </div>

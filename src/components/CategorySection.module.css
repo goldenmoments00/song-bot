@@ -250,6 +250,29 @@
   background: rgba(255,255,255,0.05);
 }
 
+.highlightSearchBtn {
+  background: linear-gradient(135deg, #9d174d, #72093e);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(157, 23, 77, 0.5);
+  animation: searchPulse 2s infinite;
+}
+
+.highlightSearchBtn:hover {
+  background: linear-gradient(135deg, #be185d, #9d174d);
+}
+
+@keyframes searchPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(157, 23, 77, 0.8);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(157, 23, 77, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(157, 23, 77, 0);
+  }
+}
+
 /* Mobile suggestions (default is mobile view - list layout matching reference) */
 .mobileSuggestions {
   display: flex;

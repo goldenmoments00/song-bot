@@ -278,7 +278,7 @@ export default function CategorySection({
 
                 <div className={styles.searchAlternative}>
                   <button
-                    className={styles.addBtn}
+                    className={`${styles.addBtn} ${styles.highlightSearchBtn}`}
                     onClick={() => {
                       setInitialSearchQuery("");
                       setIsSearchOpen(true);

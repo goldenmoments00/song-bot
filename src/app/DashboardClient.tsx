@@ -272,7 +272,7 @@ export default function DashboardClient({ eventType = "wedding" }: { eventType?:
             <div
               key={cat}
               className={`${styles.categoryCard} ${index === 0 ? 'tour-step-1' : index === 1 ? 'tour-step-2' : ''}`}
-              style={{ backgroundImage: `url('${getCatImage(cat, eventType)}')` }}
+              style={{ backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%), url('${getCatImage(cat, eventType)}')` }}
               onClick={() => {
                 setActiveCategory(cat);
                 setIsCategoryModalOpen(true);

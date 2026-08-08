@@ -178,7 +178,7 @@ export default function AdminPage() {
                                     {copiedId === song.id ? "Copied" : "Copy Link"}
                                   </button>
                                   <a 
-                                    href={`https://loader.to/?link=https://www.youtube.com/watch?v=${song.songId}&f=mp3`}
+                                    href={`https://cobalt.tools/#https://www.youtube.com/watch?v=${song.songId}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.copyBtn}

@@ -123,7 +123,16 @@ export default function AdminPage() {
                       {order.brideName && order.groomName 
                         ? `${order.brideName} & ${order.groomName}`
                         : (order.brideName || order.groomName || "Unknown Client")}
-                      <span style={{ marginLeft: "10px", fontSize: "0.85em", color: "#666", padding: "4px 8px", backgroundColor: "#f0f0f0", borderRadius: "12px", border: "1px solid #ddd" }}>
+                      <span style={{ 
+                        marginLeft: "10px", 
+                        fontSize: "0.85em", 
+                        padding: "4px 8px", 
+                        borderRadius: "12px", 
+                        fontWeight: 500,
+                        backgroundColor: order.eventType === "riceceremony" ? "#ffedd5" : "#e0e7ff",
+                        color: order.eventType === "riceceremony" ? "#c2410c" : "#3730a3",
+                        border: `1px solid ${order.eventType === "riceceremony" ? "#fed7aa" : "#c7d2fe"}`
+                      }}>
                         {order.eventType === "riceceremony" ? "Rice Ceremony" : "Wedding"}
                       </span>
                     </span>

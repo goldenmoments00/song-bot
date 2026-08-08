@@ -13,6 +13,7 @@ const { STATUS } = JoyrideModule;
 type Step = any;
 import TourTooltip from "@/components/TourTooltip";
 import styles from "./dashboard.module.css";
+import { usePlayerStore } from "@/store/playerStore";
 
 const WEDDING_CATEGORIES = [
   "Bride Ashirbad",
@@ -322,7 +323,17 @@ export default function DashboardClient({ eventType = "wedding" }: { eventType?:
         </div>
       </div>
 
-      <GlobalPlayer />
+      <GlobalPlayer onAdd={
+        isCategoryModalOpen && activeCategory 
+          ? (song) => {
+              const currentSongs = selections[activeCategory] || [];
+              if (currentSongs.length < 5 && !currentSongs.find(s => s.id === song.id)) {
+                setSelections(prev => ({ ...prev, [activeCategory]: [...currentSongs, song] }));
+                usePlayerStore.getState().stop();
+              }
+            }
+          : undefined
+      } />
     </div>
   );
 }

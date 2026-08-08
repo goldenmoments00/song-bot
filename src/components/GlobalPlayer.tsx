@@ -3,9 +3,13 @@
 import { usePlayerStore } from "@/store/playerStore";
 import { useEffect, useState } from "react";
 import styles from "./GlobalPlayer.module.css";
-import { X, Play } from "lucide-react";
+import { X, Play, Plus } from "lucide-react";
 
-export default function GlobalPlayer() {
+interface GlobalPlayerProps {
+  onAdd?: (song: any) => void;
+}
+
+export default function GlobalPlayer({ onAdd }: GlobalPlayerProps) {
   const { currentSong, isPlaying, stop } = usePlayerStore();
   const [mounted, setMounted] = useState(false);
 
@@ -28,9 +32,20 @@ export default function GlobalPlayer() {
               <p>YOUTUBE PREVIEW</p>
             </div>
           </div>
-          <button className={styles.closeBtn} onClick={stop}>
-            <X size={20} />
-          </button>
+          <div className={styles.headerActions}>
+            {onAdd && (
+              <button 
+                className={styles.addBtn} 
+                onClick={() => onAdd(currentSong)}
+                title="Add to Selections"
+              >
+                <Plus size={20} />
+              </button>
+            )}
+            <button className={styles.closeBtn} onClick={stop}>
+              <X size={20} />
+            </button>
+          </div>
         </div>
         
         <div className={styles.playerWrapper}>

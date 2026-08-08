@@ -18,6 +18,7 @@ type SongSelection = {
 type Order = {
   id: string;
   projectId: string;
+  eventType: string;
   brideName: string;
   groomName: string;
   createdAt: string;
@@ -122,6 +123,9 @@ export default function AdminPage() {
                       {order.brideName && order.groomName 
                         ? `${order.brideName} & ${order.groomName}`
                         : (order.brideName || order.groomName || "Unknown Client")}
+                      <span style={{ marginLeft: "10px", fontSize: "0.85em", color: "#666", padding: "4px 8px", backgroundColor: "#f0f0f0", borderRadius: "12px", border: "1px solid #ddd" }}>
+                        {order.eventType === "riceceremony" ? "Rice Ceremony" : "Wedding"}
+                      </span>
                     </span>
                   </div>
                   <button 

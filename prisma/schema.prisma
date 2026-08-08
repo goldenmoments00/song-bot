@@ -14,6 +14,7 @@ datasource db {
 model Order {
   id        String   @id @default(cuid())
   projectId String   @unique // This is the 4-digit order ID
+  eventType String   @default("wedding") // "wedding" | "riceceremony"
   brideName String
   groomName String
   createdAt DateTime @default(now())

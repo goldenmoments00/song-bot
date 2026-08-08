@@ -145,6 +145,7 @@ export default function DashboardClient({ eventType = "wedding" }: { eventType?:
           brideName,
           groomName,
           selections,
+          eventType,
         }),
       });
       if (res.ok) {

@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { projectId, brideName, groomName, selections } = body;
+  const { projectId, brideName, groomName, selections, eventType } = body;
 
   if (!projectId) {
     return NextResponse.json({ error: "Order ID is required" }, { status: 400 });
@@ -76,11 +76,13 @@ export async function POST(request: NextRequest) {
       update: {
         brideName: brideName || "",
         groomName: groomName || "",
+        eventType: eventType || "wedding",
       },
       create: {
         projectId: projectId.trim(),
         brideName: brideName || "",
         groomName: groomName || "",
+        eventType: eventType || "wedding",
       },
     });
 

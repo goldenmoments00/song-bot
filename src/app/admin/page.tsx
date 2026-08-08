@@ -178,9 +178,7 @@ export default function AdminPage() {
                                     {copiedId === song.id ? "Copied" : "Copy Link"}
                                   </button>
                                   <a 
-                                    href={`https://cobalt.tools/#https://www.youtube.com/watch?v=${song.songId}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    href={`/api/download?id=${song.songId}`}
                                     className={styles.copyBtn}
                                     style={{ textDecoration: 'none', backgroundColor: '#eef2ff', color: '#4f46e5', border: '1px solid #c7d2fe' }}
                                     onClick={(e) => e.stopPropagation()}

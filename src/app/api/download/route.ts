@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const videoInfo = await yt.videoInfo(url);
     
     // Find the best audio format
-    const audioFormats = videoInfo.stream.audio || [];
+    const audioFormats = (videoInfo.stream as any).audio || [];
     if (audioFormats.length === 0) {
       throw new Error("No audio formats found");
     }

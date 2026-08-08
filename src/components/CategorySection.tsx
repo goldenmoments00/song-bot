@@ -137,15 +137,6 @@ export default function CategorySection({
         </div>
 
         <div className={styles.modalBody}>
-          {/* Rounded Banner Image */}
-          <div 
-            className={styles.bannerImageCard}
-            style={{ backgroundImage: `url('${backgroundImage}')` }}
-          >
-            <div className={styles.bannerGlassOverlay}>
-              <h2 className={styles.bannerTitleText}>{title}</h2>
-            </div>
-          </div>
 
           <div className={styles.progressBanner}>
             🎵 {songs.length}/5 songs selected

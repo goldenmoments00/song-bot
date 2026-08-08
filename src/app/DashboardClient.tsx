@@ -43,7 +43,12 @@ const CATEGORY_IMAGES: Record<string, string> = {
   "Reception": "/Reception.png",
   "Highlight": "/Highlight.png",
   "Reel": "/Reel.png",
-  "Main Event": "/wedding.png",
+  "Main Event": "/RC-MAINEVENT.png",
+};
+
+const getCatImage = (cat: string, eventType: string) => {
+  if (eventType === "riceceremony" && cat === "Highlight") return "/RC-HIGHLIGHT.png";
+  return CATEGORY_IMAGES[cat] || "/wedding.png";
 };
 
 export type Song = {
@@ -267,7 +272,7 @@ export default function DashboardClient({ eventType = "wedding" }: { eventType?:
             <div
               key={cat}
               className={`${styles.categoryCard} ${index === 0 ? 'tour-step-1' : index === 1 ? 'tour-step-2' : ''}`}
-              style={{ backgroundImage: `url('${CATEGORY_IMAGES[cat]}')` }}
+              style={{ backgroundImage: `url('${getCatImage(cat, eventType)}')` }}
               onClick={() => {
                 setActiveCategory(cat);
                 setIsCategoryModalOpen(true);
@@ -293,7 +298,7 @@ export default function DashboardClient({ eventType = "wedding" }: { eventType?:
                 setSelections((prev) => ({ ...prev, [activeCategory]: newSongs }))
               }
               onClose={() => setIsCategoryModalOpen(false)}
-              backgroundImage={CATEGORY_IMAGES[activeCategory]}
+              backgroundImage={getCatImage(activeCategory, eventType)}
               eventType={eventType}
             />
           )}

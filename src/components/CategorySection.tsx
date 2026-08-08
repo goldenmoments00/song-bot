@@ -91,7 +91,6 @@ export default function CategorySection({
         onChange([...songs, song]);
       }
     }
-    setIsSearchOpen(false);
   };
 
   const handleCustomLinkAdd = (e: React.FormEvent) => {
@@ -309,6 +308,7 @@ export default function CategorySection({
           categoryTitle={title}
           initialSearchQuery={initialSearchQuery}
           eventType={eventType}
+          selectedSongs={songs}
         />
       )}
     </div>

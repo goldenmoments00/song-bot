@@ -13,6 +13,7 @@ interface SongSearchModalProps {
   categoryTitle: string;
   initialSearchQuery?: string;
   eventType?: "wedding" | "riceceremony";
+  selectedSongs: Song[];
 }
 
 export default function SongSearchModal({
@@ -21,6 +22,7 @@ export default function SongSearchModal({
   categoryTitle,
   initialSearchQuery,
   eventType = "wedding",
+  selectedSongs,
 }: SongSearchModalProps) {
   const { currentSong, isPlaying, playSong, pause, resume } = usePlayerStore();
   
@@ -158,10 +160,15 @@ export default function SongSearchModal({
                 </button>
                 <button
                   type="button"
-                  className={styles.selectBtn}
-                  onClick={() => onSelect(song)}
+                  className={selectedSongs.some(s => s.id === song.id) ? styles.selectedBtn : styles.selectBtn}
+                  onClick={() => {
+                    if (!selectedSongs.some(s => s.id === song.id)) {
+                      onSelect(song);
+                    }
+                  }}
+                  disabled={selectedSongs.some(s => s.id === song.id)}
                 >
-                  Select
+                  {selectedSongs.some(s => s.id === song.id) ? "Selected" : "Select"}
                 </button>
               </div>
             </div>

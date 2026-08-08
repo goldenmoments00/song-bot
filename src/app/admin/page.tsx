@@ -178,7 +178,7 @@ export default function AdminPage() {
                                     {copiedId === song.id ? "Copied" : "Copy Link"}
                                   </button>
                                   <a 
-                                    href={`https://cobalt.tools/#https://www.youtube.com/watch?v=${song.songId}`}
+                                    href={`https://www.y2mate.com/youtube/${song.songId}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.copyBtn}

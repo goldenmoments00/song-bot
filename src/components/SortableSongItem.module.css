@@ -41,6 +41,50 @@
   border-radius: 6px;
   overflow: hidden;
   background: var(--color-soft-beige);
+  position: relative;
+}
+
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0;
+}
+
+.item:hover .playBtn {
+  opacity: 1;
+}
+
+.playBtn:hover {
+  background: rgba(204, 0, 0, 0.9);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.playingBtn {
+  opacity: 1;
+  background: rgba(204, 0, 0, 0.9);
+  animation: pulsePlay 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsePlay {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(204, 0, 0, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(204, 0, 0, 0); }
+}
+
+.playIcon {
+  fill: currentColor;
 }
 
 .thumbnail {
@@ -89,4 +133,10 @@
 .removeBtn:hover {
   background: var(--color-blush-pink);
   color: #d32f2f;
+}
+
+@media (max-width: 600px) {
+  .playBtn {
+    opacity: 1;
+  }
 }

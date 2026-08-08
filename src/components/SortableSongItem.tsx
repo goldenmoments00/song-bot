@@ -3,7 +3,8 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Song } from "@/app/DashboardClient";
-import { GripVertical, X } from "lucide-react";
+import { GripVertical, X, Play, Pause } from "lucide-react";
+import { usePlayerStore } from "@/store/playerStore";
 import styles from "./SortableSongItem.module.css";
 import Image from "next/image";
 
@@ -21,6 +22,8 @@ export function SortableSongItem({ song, onRemove }: SortableSongItemProps) {
     transition,
     isDragging,
   } = useSortable({ id: song.id });
+
+  const { currentSong, isPlaying, playSong, pause, resume } = usePlayerStore();
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -49,6 +52,24 @@ export function SortableSongItem({ song, onRemove }: SortableSongItemProps) {
           className={styles.thumbnail}
           loading="lazy"
         />
+        <button 
+          className={`${styles.playBtn} ${currentSong?.id === song.id && isPlaying ? styles.playingBtn : ""}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (currentSong?.id === song.id) {
+              isPlaying ? pause() : resume();
+            } else {
+              playSong(song);
+            }
+          }}
+          title={currentSong?.id === song.id && isPlaying ? "Pause" : "Play Preview"}
+        >
+          {currentSong?.id === song.id && isPlaying ? (
+            <Pause size={16} fill="currentColor" />
+          ) : (
+            <Play size={16} fill="currentColor" className={styles.playIcon} />
+          )}
+        </button>
       </div>
 
       <div className={styles.details}>

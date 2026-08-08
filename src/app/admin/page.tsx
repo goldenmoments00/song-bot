@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import styles from "./admin.module.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Copy, X, Check, Trash2 } from "lucide-react";
+import { Play, Copy, X, Check, Trash2, Download } from "lucide-react";
 
 
 type SongSelection = {
@@ -169,13 +169,26 @@ export default function AdminPage() {
                               </div>
                               <div className={styles.songInfo}>
                                 <div className={styles.songTitle} title={song.title}>{song.title}</div>
-                                <button 
-                                  className={styles.copyBtn}
-                                  onClick={(e) => handleCopy(e, song.url, song.id)}
-                                >
-                                  {copiedId === song.id ? <Check size={12} /> : <Copy size={12} />}
-                                  {copiedId === song.id ? "Copied" : "Copy Link"}
-                                </button>
+                                <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
+                                  <button 
+                                    className={styles.copyBtn}
+                                    onClick={(e) => handleCopy(e, song.url, song.id)}
+                                  >
+                                    {copiedId === song.id ? <Check size={12} /> : <Copy size={12} />}
+                                    {copiedId === song.id ? "Copied" : "Copy Link"}
+                                  </button>
+                                  <a 
+                                    href={`https://loader.to/?link=https://www.youtube.com/watch?v=${song.songId}&f=mp3`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.copyBtn}
+                                    style={{ textDecoration: 'none', backgroundColor: '#eef2ff', color: '#4f46e5', border: '1px solid #c7d2fe' }}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <Download size={12} />
+                                    MP3
+                                  </a>
+                                </div>
                               </div>
                             </div>
                           ))

@@ -40,10 +40,10 @@ const CATEGORY_IMAGES: Record<string, string> = {
   "Bride Briddhi": "/Bride Briddhi.png",
   "Groom Entry": "/groomentry.png",
   "Wedding": "/wedding.png",
-  "Reception": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80",
-  "Highlight": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80",
-  "Reel": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80",
-  "Main Event": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80",
+  "Reception": "/Reception.png",
+  "Highlight": "/Highlight.png",
+  "Reel": "/Reel.png",
+  "Main Event": "/wedding.png",
 };
 
 export type Song = {

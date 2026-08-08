@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import styles from "./admin.module.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Copy, X, Check, Trash2, Download } from "lucide-react";
+import { Play, Copy, X, Check, Trash2, Download, Star } from "lucide-react";
 
 
 type SongSelection = {
@@ -13,6 +13,7 @@ type SongSelection = {
   title: string;
   url: string;
   thumbnail: string;
+  isPriority: boolean;
 };
 
 type Order = {
@@ -168,7 +169,12 @@ export default function AdminPage() {
                                 </div>
                               </div>
                               <div className={styles.songInfo}>
-                                <div className={styles.songTitle} title={song.title}>{song.title}</div>
+                                <div className={styles.songTitle} title={song.title}>
+                                  {song.title}
+                                  {song.isPriority && (
+                                    <Star size={16} fill="#f59e0b" color="#f59e0b" style={{ marginLeft: '6px' }} />
+                                  )}
+                                </div>
                                 <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
                                   <button 
                                     className={styles.copyBtn}

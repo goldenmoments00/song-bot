@@ -104,6 +104,7 @@ export async function POST(request: NextRequest) {
                title: song.title,
                url: song.url,
                thumbnail: song.thumbnail,
+               isPriority: song.isPriority || false,
              });
           }
         }

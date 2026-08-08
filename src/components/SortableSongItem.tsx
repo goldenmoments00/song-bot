@@ -3,7 +3,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Song } from "@/app/DashboardClient";
-import { GripVertical, X, Play, Pause } from "lucide-react";
+import { GripVertical, X, Play, Pause, Star } from "lucide-react";
 import { usePlayerStore } from "@/store/playerStore";
 import styles from "./SortableSongItem.module.css";
 import Image from "next/image";
@@ -11,9 +11,10 @@ import Image from "next/image";
 interface SortableSongItemProps {
   song: Song;
   onRemove: () => void;
+  onTogglePriority?: () => void;
 }
 
-export function SortableSongItem({ song, onRemove }: SortableSongItemProps) {
+export function SortableSongItem({ song, onRemove, onTogglePriority }: SortableSongItemProps) {
   const {
     attributes,
     listeners,
@@ -79,9 +80,20 @@ export function SortableSongItem({ song, onRemove }: SortableSongItemProps) {
         <span className={styles.channel}>{song.channel}</span>
       </div>
 
-      <button onClick={onRemove} className={styles.removeBtn} title="Remove song">
-        <X size={18} />
-      </button>
+      <div className={styles.actions}>
+        {onTogglePriority && (
+          <button 
+            onClick={onTogglePriority} 
+            className={`${styles.priorityBtn} ${song.isPriority ? styles.isPriority : ""}`}
+            title={song.isPriority ? "Remove Priority" : "Mark as Priority"}
+          >
+            <Star size={18} fill={song.isPriority ? "currentColor" : "none"} />
+          </button>
+        )}
+        <button onClick={onRemove} className={styles.removeBtn} title="Remove song">
+          <X size={18} />
+        </button>
+      </div>
     </div>
   );
 }

@@ -58,6 +58,7 @@ export type Song = {
   channel: string;
   thumbnail: string;
   url: string;
+  isPriority?: boolean;
 };
 
 export type Selections = Record<string, Song[]>;

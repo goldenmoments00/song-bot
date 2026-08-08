@@ -166,11 +166,14 @@ export default function CategorySection({
               <SortableContext items={songs.map((s) => s.id)} strategy={verticalListSortingStrategy}>
                 <div className={styles.songList}>
                   {songs.map((song) => (
-                    <SortableSongItem
-                      key={song.id}
-                      song={song}
-                      onRemove={() => handleRemove(song.id)}
-                    />
+                      <SortableSongItem
+                        key={song.id}
+                        song={song}
+                        onRemove={() => handleRemove(song.id)}
+                        onTogglePriority={() => {
+                          onChange(songs.map((s) => s.id === song.id ? { ...s, isPriority: !s.isPriority } : s));
+                        }}
+                      />
                   ))}
                 </div>
               </SortableContext>

@@ -120,9 +120,49 @@
   color: var(--color-text-muted);
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.priorityBtn {
+  color: var(--color-text-muted);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: var(--transition-smooth);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.priorityBtn:hover {
+  background: var(--color-soft-beige);
+  color: #f59e0b; /* Amber 500 */
+}
+
+.isPriority {
+  color: #f59e0b;
+}
+
+.isPriority:hover {
+  background: rgba(245, 158, 11, 0.1);
+}
+
 .removeBtn {
   color: var(--color-text-muted);
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: var(--transition-smooth);
+  border: none;
+  background: transparent;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

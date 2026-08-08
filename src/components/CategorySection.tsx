@@ -272,7 +272,7 @@ export default function CategorySection({
                       className={styles.customInput}
                       required
                     />
-                    <button type="submit" className={styles.customAddBtn}>Add</button>
+                    <button type="submit" className={`${styles.customAddBtn} ${styles.highlightSearchBtn}`}>Add</button>
                   </form>
                 </div>
 

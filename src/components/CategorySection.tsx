@@ -179,7 +179,14 @@ export default function CategorySection({
 
             {songs.length < 5 && (
               <>
-                {CATEGORY_SUGGESTIONS[title] && CATEGORY_SUGGESTIONS[title].length > 0 && (
+                {(() => {
+                  const availableSuggestions = CATEGORY_SUGGESTIONS[title]?.filter(
+                    (sugg) => !songs.some((s) => s.id === sugg.id)
+                  ) || [];
+
+                  if (availableSuggestions.length === 0) return null;
+
+                  return (
                   <div className={styles.recommendationCard}>
                     <div className={styles.cardHeader}>
                       <h4>Studio Recommended</h4>
@@ -187,7 +194,7 @@ export default function CategorySection({
                     </div>
                     
                     <div className={styles.mobileSuggestions}>
-                      {CATEGORY_SUGGESTIONS[title].map((song, index) => (
+                      {availableSuggestions.map((song, index) => (
                         <div key={song.id} className={`${styles.mobileSongCardContainer} ${index === 0 ? 'tour-step-4' : ''}`}>
                           <div className={styles.mobileSongRow}>
                             <div className={styles.thumbContainer}>
@@ -256,7 +263,8 @@ export default function CategorySection({
                       ))}
                     </div>
                   </div>
-                )}
+                  );
+                })()}
 
                 <div className={`tour-step-5 ${styles.customLinkCard}`}>
                   <div className={styles.cardHeader}>
